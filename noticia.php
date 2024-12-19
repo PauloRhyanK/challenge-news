@@ -23,6 +23,7 @@ if (!$noticia){
 </head>
 <body>
     <h1><?= htmlspecialchars($noticia['titulo']) ?></h1>
+    <img src="<?= htmlspecialchars($noticia['imagem']) ?>" alt="Imagem da notícia" style="max-width: 100%; height: auto;">
     <p><?= nl2br(htmlspecialchars($noticia['descricao'])) ?></p>
     <p><a href="<?= htmlspecialchars($noticia['link']) ?>" target="_blank">Leia mais</a></p>
     <p>Data de publicação: <?= $noticia['data_publicacao'] ?></p>
