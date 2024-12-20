@@ -2,16 +2,16 @@
 require 'db.php';
 
 $id = $_GET['id'] ?? null;
-if(!$id){
-    die("Noticias não encontrada!");
+if (!$id) {
+    die("Notícia não encontrada!");
 }
 
 $stmt = $pdo->prepare("SELECT * FROM noticias WHERE id = ?");
 $stmt->execute([$id]);
 $noticia = $stmt->fetch();
 
-if (!$noticia){
-    die("Noticia não encontrada!");
+if (!$noticia) {
+    die("Notícia não encontrada!");
 }
 ?>
 
@@ -83,6 +83,7 @@ if (!$noticia){
           <div class="col-lg-3 mb-3">
             <h2>ChallengeNews</h2>
             <h5>Paulo Rhyan Kuster</h5>
+            <a href="https://github.com/PauloRhyanK/challenge-news">Repositório do projeto</a>
           </div>
           <div class="col-6 col-lg-2 offset-lg-1 mb-3">
             <div>

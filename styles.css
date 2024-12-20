@@ -17,15 +17,15 @@ header {
   align-items: end;
 }
 
-footer {
-  background-color: #ffffff;
-}
-
 header h1 {
   color: white;
   font-size: 56px;
   font-family: Georgia, serif;
   margin: 20px;
+}
+
+footer {
+  background-color: #ffffff;
 }
 
 img {
@@ -56,7 +56,6 @@ button {
 ul {
   list-style-type: none;
   padding: 0px;
-  padding-left: 0px;
   margin: 0px;
 }
 
@@ -105,6 +104,7 @@ a:hover {
   display: block;
   border-radius: 10px;
 }
+
 .noticia p {
   margin: 20px;
 }
