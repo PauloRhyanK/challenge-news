@@ -1,11 +1,13 @@
 <?php
 require 'db.php';
 
+// Obtém o ID da notícia a partir da URL
 $id = $_GET['id'] ?? null;
 if (!$id) {
     die("Notícia não encontrada!");
 }
 
+// Consulta a notícia no banco de dados
 $stmt = $pdo->prepare("SELECT * FROM noticias WHERE id = ?");
 $stmt->execute([$id]);
 $noticia = $stmt->fetch();

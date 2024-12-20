@@ -4,14 +4,16 @@ require 'db.php';
 // Atualiza as notícias automaticamente
 require 'fetch_news.php';
 
+// Obtém os parâmetros de pesquisa e ordenação
 $termo = $_GET['pesquisa'] ?? '';
 $order = $_GET['order'] ?? 'recentes';
-$orderBy = 'data_publicacao DESC'; // Default order
+$orderBy = 'data_publicacao DESC'; // Ordenação padrão
 
 if ($order === 'antigas') {
     $orderBy = 'data_publicacao ASC';
 }
 
+// Consulta para contar o total de notícias
 $query = "SELECT COUNT(*) FROM noticias";
 if ($termo) {
     $query .= " WHERE titulo LIKE :termo OR descricao LIKE :termo";
@@ -24,11 +26,13 @@ if ($termo) {
 $stmt->execute();
 $totalNoticias = $stmt->fetchColumn();
 
+// Configuração de paginação
 $noticiasPorPagina = 10;
 $totalPaginas = ceil($totalNoticias / $noticiasPorPagina);
 $paginaAtual = $_GET['pagina'] ?? 1;
 $offset = ($paginaAtual - 1) * $noticiasPorPagina;
 
+// Consulta para obter as notícias com paginação
 $query = "SELECT * FROM noticias";
 if ($termo) {
     $query .= " WHERE titulo LIKE :termo OR descricao LIKE :termo";
