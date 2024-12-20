@@ -95,7 +95,6 @@ challenge-news-main/
 
 ## Melhorias Futuras
 
-- Implementar paginação para a lista de notícias.
 - Adicionar suporte a múltiplos feeds RSS.
 - Adicionar autenticação para gerenciar feeds e notícias.
 
