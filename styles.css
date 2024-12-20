@@ -97,10 +97,14 @@ a:hover {
 
 .noticia img {
   margin: auto;
+  margin-bottom: 20px;
   width: auto;
   min-width: 40%;
   min-height: 100%;
   max-width: 600px;
   display: block;
   border-radius: 10px;
+}
+.noticia p {
+  margin: 20px;
 }

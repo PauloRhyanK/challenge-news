@@ -50,21 +50,6 @@ if (!$noticia){
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Início</a>
             </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Ordenar
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Recentes</a></li>
-                <li><a class="dropdown-item" href="#">Antigas</a></li>
-              </ul>
-            </li>
           </ul>
           <form class="d-flex" role="search" method="GET">
             <input
@@ -92,7 +77,7 @@ if (!$noticia){
         <button class="btn btn-primary me-md-2" type="button"><a href="index.php" class="btn btn-primary me-md-2">Voltar</a></button>
         <button class="btn btn-primary" type="button"> <a href="<?= htmlspecialchars($noticia['link']) ?>" class="btn btn-primary me-md-2" target="_blank">Leia mais</a></button>
       </div>
-      <footer>
+    <footer>
       <div class="container py-4 py-md-5 px-4 px-md-3 text-body-secondary">
         <div class="row">
           <div class="col-lg-3 mb-3">
@@ -168,7 +153,7 @@ if (!$noticia){
           </div>
         </div>
       </div>
-      </footer>
+    </footer>
 
     </div>
     <script src='./script.js'></script>
