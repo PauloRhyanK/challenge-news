@@ -5,11 +5,20 @@ require 'db.php';
 require 'fetch_news.php';
 
 $termo = $_GET['pesquisa'] ?? '';
+$order = $_GET['order'] ?? 'recentes';
+$orderBy = 'data_publicacao DESC'; // Default order
+
+if ($order === 'antigas') {
+    $orderBy = 'data_publicacao ASC';
+}
+
 $query = "SELECT * FROM noticias";
 
 if ($termo) {
     $query .= " WHERE titulo LIKE :termo OR descricao LIKE :termo";
 }
+
+$query .= " ORDER BY $orderBy";
 
 $stmt = $pdo->prepare($query);
 if ($termo) {
@@ -18,6 +27,7 @@ if ($termo) {
 $stmt->execute();
 
 $noticias = $stmt->fetchAll();
+$noticiasCount = count($noticias);
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +63,7 @@ $noticias = $stmt->fetchAll();
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Início</a>
+              <a class="nav-link active" aria-current="page" href="index.php">Início</a>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -66,8 +76,8 @@ $noticias = $stmt->fetchAll();
                 Ordenar
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Recentes</a></li>
-                <li><a class="dropdown-item" href="#">Antigas</a></li>
+                <li><a class="dropdown-item" href="index.php?order=recentes">Recentes</a></li>
+                <li><a class="dropdown-item" href="index.php?order=antigas">Antigas</a></li>
               </ul>
             </li>
           </ul>
@@ -87,24 +97,31 @@ $noticias = $stmt->fetchAll();
         </div>
       </div>
     </nav>
-    <ul class="notice-list">
-      <?php foreach ($noticias as $noticia): ?>
-        <li class="">
-          <div class="row g-0 bg-body-secondary position-relative">
-            <div class="col-md-3 mb-md-0 p-md-4">
-              <img src="<?= htmlspecialchars($noticia['imagem']) ?>" class="w-100 rounded" alt="Imagem da notícia"/>
+    <div class="container mt-4">
+      <?php if ($termo): ?>
+        <div class="alert alert-info">
+          <?= $noticiasCount ?> notícia(s) encontrada(s) para a pesquisa "<?= htmlspecialchars($termo) ?>"
+        </div>
+      <?php endif; ?>
+      <ul class="notice-list">
+        <?php foreach ($noticias as $noticia): ?>
+          <li class="">
+            <div class="row g-0 bg-body-secondary position-relative">
+              <div class="col-md-3 mb-md-0 p-md-4">
+                <img src="<?= htmlspecialchars($noticia['imagem']) ?>" class="w-100 rounded" alt="Imagem da notícia"/>
+              </div>
+              <div class="col-md-6 p-4 ps-md-0">
+                <h5 class="mt-0"><?= htmlspecialchars($noticia['titulo']) ?></h5>
+                <a href="noticia.php?id=<?= $noticia['id'] ?>" class="stretched-link">Ler mais</a>
+                <p class="card-text">
+                  <small class="text-body-secondary">Publicado dia <?= htmlspecialchars($noticia['data_publicacao']) ?></small>
+                </p>
+              </div>
             </div>
-            <div class="col-md-6 p-4 ps-md-0">
-              <h5 class="mt-0"><?= htmlspecialchars($noticia['titulo']) ?></h5>
-              <a href="noticia.php?id=<?= $noticia['id'] ?>" class="stretched-link">Ler mais</a>
-              <p class="card-text">
-                <small class="text-body-secondary">Publicado dia <?= htmlspecialchars($noticia['data_publicacao']) ?></small>
-              </p>
-            </div>
-          </div>
-        </li>
-      <?php endforeach; ?>
-    </ul>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    </div>
     <script src="scripts.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

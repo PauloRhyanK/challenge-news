@@ -18,3 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const searchForm = document.querySelector('form[role="search"]');
+  const searchInput = searchForm.querySelector('input[name="pesquisa"]');
+
+  searchForm.addEventListener("submit", function (event) {
+    const cleanedTerm = searchInput.value.replace(/[^\w\s]/gi, "");
+    searchInput.value = cleanedTerm;
+  });
+});
