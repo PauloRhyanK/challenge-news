@@ -12,18 +12,35 @@ if ($order === 'antigas') {
     $orderBy = 'data_publicacao ASC';
 }
 
-$query = "SELECT * FROM noticias";
-
+$query = "SELECT COUNT(*) FROM noticias";
 if ($termo) {
     $query .= " WHERE titulo LIKE :termo OR descricao LIKE :termo";
 }
-
-$query .= " ORDER BY $orderBy";
 
 $stmt = $pdo->prepare($query);
 if ($termo) {
     $stmt->bindValue(':termo', "%$termo%");
 }
+$stmt->execute();
+$totalNoticias = $stmt->fetchColumn();
+
+$noticiasPorPagina = 10;
+$totalPaginas = ceil($totalNoticias / $noticiasPorPagina);
+$paginaAtual = $_GET['pagina'] ?? 1;
+$offset = ($paginaAtual - 1) * $noticiasPorPagina;
+
+$query = "SELECT * FROM noticias";
+if ($termo) {
+    $query .= " WHERE titulo LIKE :termo OR descricao LIKE :termo";
+}
+$query .= " ORDER BY $orderBy LIMIT :limit OFFSET :offset";
+
+$stmt = $pdo->prepare($query);
+if ($termo) {
+    $stmt->bindValue(':termo', "%$termo%");
+}
+$stmt->bindValue(':limit', $noticiasPorPagina, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 $stmt->execute();
 
 $noticias = $stmt->fetchAll();
@@ -121,6 +138,15 @@ $noticiasCount = count($noticias);
           </li>
         <?php endforeach; ?>
       </ul>
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+            <li class="page-item <?= $i == $paginaAtual ? 'active' : '' ?>">
+              <a class="page-link" href="index.php?pagina=<?= $i ?>&pesquisa=<?= htmlspecialchars($termo) ?>&order=<?= htmlspecialchars($order) ?>"><?= $i ?></a>
+            </li>
+          <?php endfor; ?>
+        </ul>
+      </nav>
     </div>
     <script src="scripts.js"></script>
     <script
