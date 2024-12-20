@@ -85,6 +85,16 @@ challenge-news-main/
 
 ---
 
+## Configuração do Banco de Dados
+
+Antes de executar a aplicação, configure o banco de dados seguindo os passos abaixo:
+
+1. Crie um banco de dados no seu servidor MySQL.
+2. Execute o arquivo `database.sql` no seu banco de dados para criar a tabela necessária:
+   ```bash
+   mysql -u <usuario> -p <nome_do_banco> < database.sql
+   ```
+
 ## Uso da Aplicação
 
 1. Acesse `fetch_news.php` no navegador para coletar e salvar as notícias do feed RSS.
